@@ -77,25 +77,19 @@
   if (feedbackSection && feedbackTrack) {
     let horizontalWheelLocked = false;
     let horizontalWheelTimer;
-    let pendingHorizontalDelta = 0;
     feedbackSection.addEventListener('wheel', function (event) {
       const horizontalDelta = event.shiftKey ? event.deltaY : event.deltaX;
       const isHorizontalGesture = event.shiftKey || Math.abs(event.deltaX) > Math.abs(event.deltaY);
       if (isHorizontalGesture && horizontalDelta !== 0) {
         event.preventDefault();
-        if (!horizontalWheelLocked) {
-          pendingHorizontalDelta += horizontalDelta;
-          if (Math.abs(pendingHorizontalDelta) >= 4) {
-            scrollFeedback(pendingHorizontalDelta > 0 ? 1 : -1);
-            horizontalWheelLocked = true;
-            pendingHorizontalDelta = 0;
-          }
+        if (!horizontalWheelLocked && Math.abs(horizontalDelta) >= 4) {
+          scrollFeedback(horizontalDelta > 0 ? 1 : -1);
+          horizontalWheelLocked = true;
         }
         clearTimeout(horizontalWheelTimer);
         horizontalWheelTimer = setTimeout(function () {
           horizontalWheelLocked = false;
-          pendingHorizontalDelta = 0;
-        }, 450);
+        }, 180);
       }
     }, { passive: false });
     let touchStartX = 0;
