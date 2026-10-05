@@ -712,8 +712,8 @@ h3 {
   line-height: 1;
 }
 .brand-mark {
-  width: 48px;
-  height: 38px;
+  width: 72px;
+  height: 48px;
   display: grid;
   place-items: center;
 }
@@ -724,7 +724,7 @@ h3 {
 }
 .brand-name {
   position: relative;
-  top: 7px;
+  /* top: 7px; */
   color: var(--ink);
   font-size: 15px;
   font-weight: 780;
@@ -853,26 +853,29 @@ h3 {
   background: #2a2a2a;
   border-color: #676767;
 }
+.feedback-viewport {
+  overflow: hidden;
+}
 .feedback-track {
+  position: relative;
   display: grid;
   grid-auto-flow: column;
-  grid-auto-columns: minmax(330px, 42%);
+  grid-auto-columns: calc((100% - 36px) / 3);
   gap: 18px;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scrollbar-width: none;
-  overscroll-behavior-inline: contain;
+  overflow: visible;
+  align-items: start;
   padding-bottom: 8px;
+  transform: translate3d(calc(0px - var(--feedback-offset, 0px)), 0, 0);
+  transition: transform 0.75s cubic-bezier(0.22, 0.61, 0.36, 1);
+  will-change: transform;
 }
-.feedback-track::-webkit-scrollbar {
-  display: none;
+.feedback-track::after {
+  content: "";
+  width: calc((100% - 36px) / 3);
 }
 .feedback-card {
-  scroll-snap-align: start;
   margin: 0;
-  min-height: 255px;
   padding: 28px;
-  border: 1px solid #3b3b3b;
   border-radius: var(--radius);
   background: #1c1c1c;
 }
@@ -960,7 +963,10 @@ h3 {
     border-bottom: 1px solid var(--line);
   }
   .feedback-track {
-    grid-auto-columns: minmax(320px, 72%);
+    grid-auto-columns: calc((100% - 18px) / 2);
+  }
+  .feedback-track::after {
+    display: none;
   }
 }
 
@@ -989,6 +995,9 @@ h3 {
   .feedback-track {
     grid-auto-columns: 86%;
     gap: 14px;
+  }
+  .feedback-track::after {
+    width: 86%;
   }
   .feedback-card {
     min-height: 0;
